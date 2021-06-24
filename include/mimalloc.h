@@ -89,6 +89,12 @@ terms of the MIT license. A copy of the license can be found in the file
 // Includes
 // ------------------------------------------------------
 
+#pragma push_macro("_GNU_SOURCE")
+#define _GNU_SOURCE
+#include <sched.h>
+#undef _GNU_SOURCE
+#pragma pop_macro("_GNU_SOURCE")
+
 #include <stddef.h>     // size_t
 #include <stdbool.h>    // bool
 

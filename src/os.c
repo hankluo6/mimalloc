@@ -1186,9 +1186,13 @@ static size_t mi_os_numa_node_countx(void) {
 
 static size_t mi_os_numa_nodex(void) {
 #ifdef SYS_getcpu
-  unsigned long node = 0;
-  unsigned long ncpu = 0;
+  unsigned int node = 0;
+  unsigned int ncpu = 0;
+#if defined(__GLIBC__)
+  long err = getcpu(&ncpu, &node);
+#else
   long err = syscall(SYS_getcpu, &ncpu, &node, NULL);
+#endif
   if (err != 0) return 0;
   return node;
 #else
