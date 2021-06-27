@@ -890,6 +890,12 @@ static  bool mi_os_protectx(void* addr, size_t size, bool protect) {
     _mi_warning_message("mprotect error: start: %p, csize: 0x%x, err: %i\n", start, csize, err);
     mi_mprotect_hint(err);
   }
+#ifdef MADV_DONTNEED
+  int madv_err = madvise(start, csize, MADV_DONTNEED);
+  if (madv_err != 0) {
+    _mi_warning_message("madvise error: start: %p, csize: 0x%x, err: %i\n", start, csize, madv_err);
+  }
+#endif
   return (err == 0);
 }
 
